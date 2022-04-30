@@ -2,9 +2,12 @@ gif-converter
 |- package.json
 |- package-lock.json
 |- webpack.config.js
-|- /dist
+|- /docs
     |- index.html
     |- style.css
+    |- coi-serviceworker.js
+    |- ffmpeg.min.js
+    |- ffmpeg.min.js.map
 |- /src
     |- index.js
 |- /node_modules
