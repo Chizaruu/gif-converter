@@ -1,0 +1,10 @@
+gif-converter
+|- package.json
+|- package-lock.json
+|- webpack.config.js
+|- /dist
+    |- index.html
+    |- style.css
+|- /src
+    |- index.js
+|- /node_modules

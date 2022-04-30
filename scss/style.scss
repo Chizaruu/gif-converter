@@ -1,0 +1,9 @@
+@use "typography";
+
+body {
+    margin: 0;
+    padding: 0;
+
+    //The background color of the body will be a colorful gradient of the colors - orange, yellow, green, blue, purple, pink, and red.
+    background-image: linear-gradient(to bottom right, yellow, green, blue, purple, pink, red);
+}
