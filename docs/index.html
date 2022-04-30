@@ -5,13 +5,14 @@
     <title>Gif Converter</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="cat.jpg" type="image/x-icon">
+    <script src="coi-serviceworker.js"></script>
+    <script src="ffmpeg.min.js"></script>
   </head>
   <body>
-    <script src="coi-serviceworker.js"></script>
     <script src="main.js"></script>
-    <script src="ffmpeg.min.js"></script>
+    <h3>Upload a video to transcode to mp4 (x264) and play!</h3>
     <video id="output-video" controls></video><br/>
-    <input type="file" id="uploader">
+    <input type="file" id="upload" accept="image/gif">
     <button onClick="cancel()">Cancel</button>
     <p id="message"></p>
     <script>
@@ -30,14 +31,14 @@
         }
         ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
         message.innerHTML = 'Start transcoding';
-        await ffmpeg.run('-i', name,  'output.mp4');
+        await ffmpeg.run("-i", name, "-movflags", "faststart", "-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",  'output.mp4');
         message.innerHTML = 'Complete transcoding';
         const data = ffmpeg.FS('readFile', 'output.mp4');
 
         const video = document.getElementById('output-video');
         video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
       }
-      const elm = document.getElementById('uploader');
+      const elm = document.getElementById('upload');
       elm.addEventListener('change', transcode);
 
       const cancel = () => {

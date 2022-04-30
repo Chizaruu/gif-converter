@@ -5,7 +5,9 @@ gif-converter
 |- /docs
     |- index.html
     |- style.css
+    |- coi-serviceworker.js
+    |- ffmpeg.min.js
+    |- ffmpeg.min.js.map
 |- /src
     |- index.js
-    |- coi-serviceworker.js
 |- /node_modules
