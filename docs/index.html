@@ -9,17 +9,15 @@
     <script src="ffmpeg.min.js"></script>
   </head>
   <body>
-    <script src="main.js"></script>
-    <h3>Upload a video to transcode to mp4 (x264) and play!</h3>
+    <h3>Upload a gif to convert</h3>
     <video id="output-video" controls></video><br/>
     <input type="file" id="upload" accept="image/gif">
-    <button onClick="cancel()">Cancel</button>
     <p id="message"></p>
     <script>
       const { createFFmpeg, fetchFile } = FFmpeg;
       let ffmpeg = null;
 
-      const transcode = async ({ target: { files } }) => {
+      const converter = async ({ target: { files } }) => {
         if (ffmpeg === null) {
           ffmpeg = createFFmpeg({ log: true });
         }
@@ -31,7 +29,7 @@
         }
         ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
         message.innerHTML = 'Start transcoding';
-        await ffmpeg.run("-i", name, "-movflags", "faststart", "-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",  'output.mp4');
+        await ffmpeg.run("-f", "gif", "-i", name, "-movflags", "+faststart", "-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", "output.mp4");
         message.innerHTML = 'Complete transcoding';
         const data = ffmpeg.FS('readFile', 'output.mp4');
 
@@ -39,14 +37,7 @@
         video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
       }
       const elm = document.getElementById('upload');
-      elm.addEventListener('change', transcode);
-
-      const cancel = () => {
-        try {
-          ffmpeg.exit();
-        } catch(e) {}
-        ffmpeg = null;
-      }
+      elm.addEventListener('change', converter);
     </script>
   </body>
 </html>
