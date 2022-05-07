@@ -5,7 +5,6 @@
         <title>Gif Converter</title>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="icon" href="cat.jpg" type="image/x-icon" />
-        <script src="./js/coi-serviceworker.js"></script>
         <script src="./js/ffmpeg.min.js"></script>
     </head>
     <body>
@@ -20,6 +19,7 @@
         <input type="checkbox" id="spritesheet" />
         <p id="message"></p>
         <script>
+            if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
             const { createFFmpeg, fetchFile } = FFmpeg;
             let ffmpeg = null;
 
