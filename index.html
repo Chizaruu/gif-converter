@@ -1,43 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Gif Converter</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="cat.jpg" type="image/x-icon">
-    <script src="js/coi-serviceworker.js"></script>
-    <script src="js/ffmpeg.min.js"></script>
-  </head>
-  <body>
-    <h3>Upload a gif to convert</h3>
-    <video id="output-video" controls></video><br/>
-    <input type="file" id="upload" accept="image/gif">
-    <p id="message"></p>
-    <script>
-      const { createFFmpeg, fetchFile } = FFmpeg;
-      let ffmpeg = null;
+    <head>
+        <meta charset="utf-8" />
+        <title>Gif Converter</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="icon" href="cat.jpg" type="image/x-icon" />
+        <script src="./js/coi-serviceworker.js"></script>
+        <script src="./js/ffmpeg.min.js"></script>
+    </head>
+    <body>
+        <h3>Upload a gif to convert</h3>
+        <video id="output-video" controls></video><br />
+        <img id="output-image" />
+        <input type="file" id="upload" accept="image/gif" />
+        <select id="format">
+            <option value="mp4">mp4</option>
+            <option value="png">png</option>
+        </select>
+        <input type="checkbox" id="spritesheet" />
+        <p id="message"></p>
+        <script>
+            const { createFFmpeg, fetchFile } = FFmpeg;
+            let ffmpeg = null;
 
-      const converter = async ({ target: { files } }) => {
-        if (ffmpeg === null) {
-          ffmpeg = createFFmpeg({ log: true });
-        }
-        const message = document.getElementById('message');
-        const { name } = files[0];
-        message.innerHTML = 'Loading ffmpeg-core.js';
-        if (!ffmpeg.isLoaded()) {
-          await ffmpeg.load();
-        }
-        ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-        message.innerHTML = 'Start transcoding';
-        await ffmpeg.run("-f", "gif", "-i", name, "-movflags", "+faststart", "-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", "output.mp4");
-        message.innerHTML = 'Complete transcoding';
-        const data = ffmpeg.FS('readFile', 'output.mp4');
+            const converter = async ({ target: { files } }) => {
+                if (ffmpeg === null) {
+                    ffmpeg = createFFmpeg({ log: true });
+                }
+                const message = document.getElementById("message");
+                const { name } = files[0];
+                message.innerHTML = "Loading ffmpeg-core.js";
+                if (!ffmpeg.isLoaded()) {
+                    await ffmpeg.load();
+                }
+                ffmpeg.FS("writeFile", name, await fetchFile(files[0]));
+                message.innerHTML = "Start transcoding";
+                switch (document.getElementById("format").value) {
+                    case "mp4":
+                        await ffmpeg.run(
+                            "-f",
+                            "gif",
+                            "-i",
+                            name,
+                            "-movflags",
+                            "+faststart",
+                            "-pix_fmt",
+                            "yuv420p",
+                            "-vf",
+                            "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                            "output.mp4"
+                        );
 
-        const video = document.getElementById('output-video');
-        video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-      }
-      const elm = document.getElementById('upload');
-      elm.addEventListener('change', converter);
-    </script>
-  </body>
+                        const data = ffmpeg.FS("readFile", "output.mp4");
+                        const video = document.getElementById("output-video");
+                        video.src = URL.createObjectURL(
+                            new Blob([data.buffer], { type: "video/mp4" })
+                        );
+                        break;
+                    case "png":
+                        await ffmpeg.run(
+                            "-i",
+                            name,
+                            "-vf",
+                            "select='not(mod(n, 300))',setpts='N/(30*TB)'",
+                            "-f",
+                            "image2",
+                            "output.png"
+                        );
+
+                        const data2 = ffmpeg.FS("readFile", "output.png");
+                        const image = document.getElementById("output-image");
+                        image.src = URL.createObjectURL(
+                            new Blob([data2.buffer], { type: "image/png" })
+                        );
+                        break;
+                }
+                message.innerHTML = "Complete transcoding";
+            };
+            const elm = document.getElementById("upload");
+            elm.addEventListener("change", converter);
+        </script>
+    </body>
 </html>
