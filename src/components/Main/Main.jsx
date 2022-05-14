@@ -117,7 +117,6 @@ export function Main() {
                 <option value="mp4">mp4</option>
                 <option value="png">png</option>
             </select>
-            <input type="checkbox" id="spritesheet" />
             <label htmlFor="spritesheet">Spritesheet</label>
             <button onClick={() => reset()}>Reset</button>
             <button onClick={() => convertFile()}>Convert</button>

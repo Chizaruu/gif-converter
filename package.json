@@ -55,5 +55,8 @@
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/Chizaruu/gif-converter/issues"
+    },
+    "optionalDependencies": {
+        "fsevents": "^2.3.2"
     }
 }
