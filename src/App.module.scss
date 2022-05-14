@@ -287,6 +287,26 @@ $device-sizes: (
             height: 25em;
         }
 
+        span {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            width: 15%;
+
+            label {
+                font-size: map-get($font-sizes-text, large);
+                font-weight: map-get($font-weights, bold);
+                margin-bottom: 7px;
+            }
+
+            input {
+                font-weight: map-get($font-weights, bold);
+                color: transparent;
+                width: 65px;
+            }
+        }
+
         div {
             display: flex;
             flex-direction: row;
