@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./App.module.scss";
 import { Footer } from "./containers/Footer/Footer";
 import { Header } from "./containers/Header/Header";
