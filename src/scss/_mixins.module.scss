@@ -1,0 +1,60 @@
+// Devices
+$device-sizes: (phone: 450px,
+    tablet: 880px,
+    desktop: 1024px);
+
+@mixin phone {
+    @media only screen and (max-width: map-get($device-sizes, phone)) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media only screen and (min-width: (map-get($device-sizes, phone) +1px)) and (max-width: map-get($device-sizes, tablet)) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media only screen and (min-width: (map-get($device-sizes, tablet) +1px)) {
+        @content;
+    }
+}
+
+
+//Themes
+@mixin light {
+    @media (prefers-color-scheme: light) {
+        @at-root #{selector-nest(':root:not([data-theme=light]):not([data-theme=dark])', &)} {
+            @content;
+        }
+    }
+}
+
+@mixin dark {
+    @media (prefers-color-scheme: dark) {
+        @at-root #{selector-nest(':root:not([data-theme=light]):not([data-theme=dark])', &)} {
+            @content;
+        }
+    }
+}
+
+//Technicals
+@mixin display-image($device-size) {
+    @if($device-size !=map-get($device-sizes, phone)) {
+        @if($device-size !=map-get($device-sizes, tablet)) {
+            width: 50%;
+            height: 100%;
+        }
+
+        @else {
+            width: 75%;
+            height: 100%;
+        }
+    }
+
+    @else {
+        width: 0%;
+        height: 0%;
+    }
+}

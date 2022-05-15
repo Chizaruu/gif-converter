@@ -1,0 +1,34 @@
+//Groups of colors
+
+
+//Groups of base colors (backgrounds color for components)
+$light-theme-colors: (primary: #ffffff,
+    secondary: #f3f4f6,
+    tertiary: #00ba34,
+    quaternary: #b0dabc,
+    quinary: #05080e67,
+);
+
+$dark-theme-colors: (primary: #000000,
+    secondary: #222222,
+    tertiary: #17cb49,
+    quaternary: #6acf86,
+    quinary: #f3f4f667,
+);
+
+
+//Groups of font colors
+$light-theme-font-colors: (primary: black,
+    secondary: #00ba34,
+);
+
+$dark-theme-font-colors: (primary: #ffffff,
+    secondary: #17cb49,
+);
+
+
+//Group of special colors
+$special-colors: (heart: #e74c3c,
+    youtube: #ff0000,
+    asterisk: #30a5c2,
+);

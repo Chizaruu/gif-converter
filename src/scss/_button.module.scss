@@ -1,0 +1,20 @@
+@use "./palette.module" as p;
+@use "./mixins.module" as m;
+
+button {
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    @include m.light {
+        background-color: map-get(p.$light-theme-colors, tertiary);
+    }
+
+    @include m.dark {
+        background-color: map-get(p.$dark-theme-colors, tertiary);
+    }
+}

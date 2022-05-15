@@ -7,9 +7,11 @@ import { Main } from "./containers/Main/Main";
 export default function App() {
     return (
         <div className={styles.App}>
-            <Header />
-            <Main />
-            <Footer />
+            <div className={styles.background}>
+                <Header />
+                <Main />
+                <Footer />
+            </div>
         </div>
     );
 }
