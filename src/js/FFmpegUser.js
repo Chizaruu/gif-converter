@@ -10,14 +10,14 @@ export class FFmpegUser {
     }
 
     async load() {
-        if (!this.loadable) return;
-
-        try {
-            await this.ffmpeg.load();
-            return true;
-        } catch (error) {
-            this.loadable = false;
-            return false;
+        if (this.loadable) {
+            try {
+                await this.ffmpeg.load();
+                return true;
+            } catch (error) {
+                this.loadable = false;
+                return false;
+            }
         }
     }
 
@@ -58,5 +58,9 @@ export class FFmpegUser {
         link.setAttribute("href", url);
         link.setAttribute("download", filename);
         link.click();
+    }
+
+    isLoaded() {
+        return this.loadable;
     }
 }

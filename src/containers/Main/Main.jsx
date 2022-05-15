@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { FFmpegUser } from "../../js/FFmpegUser";
 
+const ffmpegUser = new FFmpegUser();
+(async () => {
+    await ffmpegUser.load();
+})();
+
 export function Main() {
-    const [ffmpeg] = useState(new FFmpegUser());
     const [ready, setReady] = useState(false);
     const [input, setInput] = useState(null);
     const [format, setFormat] = useState("mp4");
@@ -13,7 +17,7 @@ export function Main() {
     }
 
     async function handleOutput() {
-        const file = await ffmpeg.convert(input, format);
+        const file = await ffmpegUser.convert(input, format);
         setOutput(file);
         setInput(null);
     }
@@ -22,14 +26,14 @@ export function Main() {
         if (!output.file) {
             return;
         }
-        ffmpeg.download(...output);
+        ffmpegUser.download(...output);
     }
 
     useEffect(() => {
-        if (!ready) {
-            setReady(ffmpeg.load());
+        if (ffmpegUser.isLoaded()) {
+            setReady(true);
         }
-    }, [ffmpeg, ready]);
+    }, []);
 
     useEffect(() => {
         if (ready && input) {
