@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { FFmpegUser } from "../../js/FFmpegUser";
 
-const ffmpegUser = new FFmpegUser();
-(async () => {
-    await ffmpegUser.load();
-})();
-
 export function Main() {
+    const ffmpegUser = new FFmpegUser();
+
+    (async () => {
+        await ffmpegUser.load();
+    })();
     const [ready, setReady] = useState(false);
     const [input, setInput] = useState(null);
     const [format, setFormat] = useState("mp4");
@@ -32,7 +32,10 @@ export function Main() {
     useEffect(() => {
         if (ffmpegUser.isLoaded()) {
             setReady(true);
+        } else {
+            console.log(ffmpegUser.isLoaded());
         }
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {

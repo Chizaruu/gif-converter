@@ -13,9 +13,11 @@ export class FFmpegUser {
         if (this.loadable) {
             try {
                 await this.ffmpeg.load();
+                console.log("ffmpeg loaded");
                 return true;
             } catch (error) {
                 this.loadable = false;
+                console.error(error);
                 return false;
             }
         }
