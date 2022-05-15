@@ -4,9 +4,6 @@ export class FFmpegUser {
     constructor() {
         this.loadable = !!window.SharedArrayBuffer;
         this.ffmpeg = createFFmpeg({
-            corePath:
-                "https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js",
-            path: require.resolve("path-browserify"),
             log: true,
             progressRatio: 0,
         });
