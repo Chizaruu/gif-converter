@@ -28,6 +28,13 @@
         <script src="./coi-serviceworker.js"></script>
     </head>
     <body>
+        <script>
+            const el = document.createElement("div");
+            el.innerHTML = `Cross origin isolated: ${
+                window.crossOriginIsolated ? "✅" : "❌"
+            }`;
+            document.body.append(el);
+        </script>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
         <!--

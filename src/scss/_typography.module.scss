@@ -134,6 +134,15 @@ button {
     font-weight: map-get($font-weights, bold);
 }
 
+label {
+    font-size: map-get($font-sizes-text, large);
+    font-weight: map-get($font-weights, bold);
+}
+
+input {
+    font-weight: map-get($font-weights, bold);
+}
+
 button {
     color: map-get(p.$light-theme-font-colors, primary);
 }

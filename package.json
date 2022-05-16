@@ -7,8 +7,7 @@
         "@babel/preset-react": "^7.16.7",
         "babel-jest": "^28.1.0",
         "eslint-config-react-app": "^7.0.1",
-        "nth-check": ">=2.0.1",
-        "resolve-url-loader": "^5.0.0"
+        "nth-check": ">=2.0.1"
     },
     "dependencies": {
         "@ffmpeg/core": "^0.9.0",

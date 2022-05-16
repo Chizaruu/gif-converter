@@ -1,5 +1,5 @@
-@use "./palette.module" as p;
-@use "./mixins.module" as m;
+@use "./../../scss/palette.module" as p;
+@use "./../../scss/mixins.module" as m;
 
 footer {
     padding: 15px;

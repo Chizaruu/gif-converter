@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import styles from "./Main.module.scss";
 import { FFmpegUser } from "../../js/FFmpegUser";
 
 export function Main() {
@@ -44,7 +45,7 @@ export function Main() {
     }, [ready, input]);
 
     return (
-        <main>
+        <main className={styles.main}>
             <h3>~ Input ~</h3>
             <div>
                 <span>
