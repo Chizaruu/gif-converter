@@ -32,7 +32,7 @@ export function Nav() {
                 <li className={styles.navbar__list__item}>
                     <a
                         className={styles.navbar__list__item__link}
-                        href="morse-code-translator"
+                        href="https://chizaruu.github.io/morse-code-translator"
                         title="- .. -- . / - --- / - .-. .- -. ... .-.. .- - . -.-.--"
                     >
                         Morse Code Translator
