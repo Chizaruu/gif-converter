@@ -60,6 +60,7 @@ export class FFmpegUser {
         link.setAttribute("href", url);
         link.setAttribute("download", filename);
         link.click();
+        console.log("downloading");
     }
 
     isLoaded() {

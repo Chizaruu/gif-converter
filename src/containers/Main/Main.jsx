@@ -21,8 +21,10 @@ export function Main() {
 
     function handleDownload() {
         if (!output.file) {
+            console.log("No file to download");
             return;
         }
+
         ffmpegUser.download(...output);
     }
 
@@ -39,7 +41,6 @@ export function Main() {
     useEffect(() => {
         if (ready && input) {
             handleOutput();
-            setInput(null);
         }
         // eslint-disable-next-line
     }, [ready, input]);
