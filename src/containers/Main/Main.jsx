@@ -25,7 +25,7 @@ export function Main() {
             return;
         }
 
-        ffmpegUser.download(...output);
+        ffmpegUser.download(output.url);
     }
 
     useEffect(() => {
