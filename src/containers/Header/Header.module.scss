@@ -4,14 +4,6 @@
 header {
     display: flex;
     justify-content: center;
-
-    @include m.light {
-        background-color: map-get(p.$light-theme-colors, secondary);
-        box-shadow: 0px 0px 7px 0px map-get($dark-theme-colors, secondary);
-    }
-
-    @include m.dark {
-        background-color: map-get(p.$dark-theme-colors, secondary);
-        box-shadow: 0px 0px 7px 0px map-get($light-theme-colors, secondary);
-    }
+    align-items: center;
+    margin-top: 3em;
 }

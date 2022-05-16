@@ -4,6 +4,9 @@
 @use "./scss/button.module";
 
 .App {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
     min-height: calc(100% + constant(safe-area-inset-top));
     min-height: calc(100% + env(safe-area-inset-top));
 }

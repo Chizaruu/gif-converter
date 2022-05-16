@@ -21,12 +21,13 @@ export function Nav() {
             </label>
             <ul className={styles.navbar__list}>
                 <li className={styles.navbar__list__item}>
-                    <p
+                    <a
                         className={styles.navbar__list__item__link}
+                        href="gif-converter"
                         title="Psst, You want some conversion?"
                     >
                         Gif Converter
-                    </p>
+                    </a>
                 </li>
                 <li className={styles.navbar__list__item}>
                     <a

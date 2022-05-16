@@ -46,33 +46,43 @@ export function Main() {
 
     return (
         <main className={styles.main}>
-            <h3>~ Input ~</h3>
             <div>
-                <span>
-                    <label htmlFor="upload">Select Gif:</label>
-                    <input
-                        type="file"
-                        id="input"
-                        accept="image/gif"
-                        onChange={(e) =>
-                            handleInput(e.target.files[0], "image/gif")
-                        }
-                    />
-                </span>
-                <span>
-                    <label htmlFor="format">Format:</label>
-                    <select
-                        id="format"
-                        onChange={(e) => setFormat(e.target.value)}
-                    >
-                        <option value="mp4">mp4</option>
-                        <option value="png">png</option>
-                    </select>
-                </span>
+                <div>
+                    <h3>~ Input ~</h3>
+                    <div>
+                        <span>
+                            <label htmlFor="upload">Select Gif:</label>
+                            <input
+                                type="file"
+                                id="input"
+                                accept="image/gif"
+                                onChange={(e) =>
+                                    handleInput(e.target.files[0], "image/gif")
+                                }
+                            />
+                        </span>
+                        <span>
+                            <label htmlFor="format">Format:</label>
+                            <select
+                                id="format"
+                                onChange={(e) => setFormat(e.target.value)}
+                            >
+                                <option value="mp4">mp4</option>
+                                <option value="png">png</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <h3>~ Output ~</h3>
+                    <div>
+                        <video id="video" src={output.url} controls loop />
+                        <button onClick={() => handleDownload()}>
+                            Download
+                        </button>
+                    </div>
+                </div>
             </div>
-            <h3>~ Output ~</h3>
-            <video id="video" src={output.url} controls loop />
-            <button onClick={() => handleDownload()}>Download</button>
         </main>
     );
 }
