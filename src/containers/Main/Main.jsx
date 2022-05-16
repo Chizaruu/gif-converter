@@ -20,7 +20,7 @@ export function Main() {
     }
 
     function handleDownload() {
-        if (!output.file) {
+        if (output.url === "") {
             console.log("No file to download");
             return;
         }

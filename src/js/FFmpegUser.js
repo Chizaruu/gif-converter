@@ -47,20 +47,18 @@ export class FFmpegUser {
                 const data = await this.ffmpeg.FS("readFile", "output.mp4");
                 const blob = new Blob([data.buffer], { type: "video/mp4" });
                 const url = URL.createObjectURL(blob);
-                output = { url, blob };
+                output = { blob, url };
                 return output;
             default:
                 throw new Error("Invalid format");
         }
     }
 
-    download(blob, filename) {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", filename);
-        link.click();
-        console.log("downloading");
+    download(url) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "output.mp4";
+        a.click();
     }
 
     isLoaded() {
