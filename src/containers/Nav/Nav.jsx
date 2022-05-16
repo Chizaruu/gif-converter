@@ -23,7 +23,7 @@ export function Nav() {
                 <li className={styles.navbar__list__item}>
                     <a
                         className={styles.navbar__list__item__link}
-                        href="gif-converter"
+                        href="/"
                         title="Psst, You want some conversion?"
                     >
                         Gif Converter
