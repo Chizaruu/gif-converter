@@ -1,0 +1,158 @@
+@use "./palette.module" as p;
+@use "./mixins.module" as m;
+
+// Base font
+$font-family-styles: (
+    heading: (
+        "Roboto Slab",
+        "Helvetica Neue",
+        Arial,
+        sans-serif,
+    ),
+    base: (
+        "Roboto",
+        "Helvetica Neue",
+        Arial,
+        sans-serif,
+    ),
+);
+
+// Font weights
+$font-weights: (
+    bolder: 900,
+    bold: 700,
+    normal: 500,
+    light: 300,
+);
+
+// Font size
+$font-sizes-headings: (
+    h1: 3rem,
+    h2: 2.5rem,
+    h3: 2rem,
+    h4: 1.75rem,
+    h5: 1.5rem,
+    h6: 1.25rem,
+);
+
+$font-sizes-text: (
+    base: 0.75rem,
+    small: 0.625rem,
+    medium: 0.875rem,
+    large: 1rem,
+    xlarge: 1.25rem,
+    xxlarge: 1.5rem,
+);
+
+// Line-height
+$line-heights: (
+    loose: 1.75,
+    normal: 1.5,
+    tight: 1.25,
+);
+
+// Letter-spacing
+$letter-spacings: (
+    extra-wide: 0.1rem,
+    wide: 0.05rem,
+    normal: 0,
+    tight: -0.05rem,
+);
+
+//Data-Theme
+%data-theme {
+    @include m.light {
+        color: map-get(p.$light-theme-font-colors, primary);
+    }
+
+    @include m.dark {
+        color: map-get(p.$dark-theme-font-colors, primary);
+    }
+}
+
+%font-headings {
+    font-family: map-get($font-family-styles, heading);
+    line-height: map-get($line-heights, normal);
+    letter-spacing: map-get($letter-spacings, normal);
+    font-weight: map-get($font-weights, bold);
+    white-space: nowrap;
+}
+
+//headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @extend %font-headings;
+    @extend %data-theme;
+}
+
+h1 {
+    font-size: map-get($font-sizes-headings, h1);
+
+    @include m.phone {
+        font-size: map-get($font-sizes-headings, h4);
+    }
+}
+
+h2 {
+    font-size: map-get($font-sizes-headings, h2);
+
+    @include m.phone {
+        font-size: map-get($font-sizes-headings, h5);
+    }
+}
+
+//text
+p,
+a,
+li,
+span,
+label,
+footer {
+    font-family: map-get($font-family-styles, base);
+    line-height: map-get($line-heights, normal);
+
+    @include m.phone {
+        font-size: map-get($font-sizes-text, small);
+    }
+
+    @include m.tablet {
+        font-size: map-get($font-sizes-text, medium);
+    }
+
+    @include m.desktop {
+        font-size: map-get($font-sizes-text, xlarge);
+    }
+
+    @extend %data-theme;
+}
+
+a,
+footer,
+button {
+    font-weight: map-get($font-weights, bold);
+}
+
+label {
+    font-size: map-get($font-sizes-text, large);
+    font-weight: map-get($font-weights, bold);
+}
+
+input {
+    font-weight: map-get($font-weights, bold);
+}
+
+button {
+    color: map-get(p.$light-theme-font-colors, primary);
+}
+
+#youtube {
+    color: map-get(p.$special-colors, youtube);
+}
+
+#asterisk {
+    color: map-get(p.$special-colors, asterisk);
+}

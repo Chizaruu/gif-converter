@@ -1,0 +1,9 @@
+@use "./../../scss/palette.module" as p;
+@use "./../../scss/mixins.module" as m;
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
+}

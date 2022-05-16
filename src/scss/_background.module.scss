@@ -1,0 +1,66 @@
+@use "./palette.module" as p;
+@use "./mixins.module" as m;
+
+.background,
+.twinkling,
+.clouds {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.background {
+    @include m.light {
+        background: url("./images/box.webp") repeat 0 0;
+        animation: bg-scrolling-reverse 0.7s infinite;
+        animation-timing-function: linear;
+
+        @keyframes bg-scrolling-reverse {
+            100% {
+                background-position: 50px 50px;
+            }
+        }
+    }
+
+    @include m.dark {
+        z-index: -3;
+        background: map-get(p.$dark-theme-colors, primary)
+            url("./images/stars.webp") repeat top center;
+    }
+}
+
+.twinkling {
+    @include m.dark {
+        z-index: -2;
+        background: transparent url("./images/twinkling.webp") repeat top center;
+        animation: move-twink-back 200s linear infinite;
+
+        @keyframes move-twink-back {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: -10000px 5000px;
+            }
+        }
+    }
+}
+
+.clouds {
+    @include m.dark {
+        z-index: -1;
+        background: transparent url("./images/clouds.webp") repeat top center;
+        animation: move-clouds-back 200s linear infinite;
+
+        @keyframes move-clouds-back {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: -10000px 5000px;
+            }
+        }
+    }
+}
