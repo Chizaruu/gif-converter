@@ -51,14 +51,9 @@ export class FFmpegUser {
                 return output;
             case "png":
                 await this.ffmpeg.run(
-                    "-f",
-                    "gif",
                     "-i",
                     "input.gif",
-                    "-pix_fmt",
-                    "rgb24",
-                    "-vf",
-                    "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                    "-coalesce",
                     "output.png"
                 );
 
