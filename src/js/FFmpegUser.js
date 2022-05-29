@@ -56,7 +56,7 @@ export class FFmpegUser {
                     "-map",
                     "0:v",
                     "-r",
-                    "25",
+                    "1",
                     "out_%06d.png"
                 );
 
