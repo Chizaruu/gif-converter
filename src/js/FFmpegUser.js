@@ -52,17 +52,24 @@ export class FFmpegUser {
             case "png":
                 await this.ffmpeg.run(
                     "-i",
-                    "convert",
-                    "-coalesce",
-                    "-update",
                     "input.gif",
-                    "output.png"
+                    "-map",
+                    "0:v",
+                    "-r",
+                    "25",
+                    "out_%06d.png"
                 );
 
-                const data2 = await this.ffmpeg.FS("readFile", "output.png");
-                const blob2 = new Blob([data2.buffer], { type: "image/png" });
-                const url2 = URL.createObjectURL(blob2);
-                output = { blob: blob2, url: url2 };
+                const files = await this.ffmpeg.FS("readdir", ".");
+                const images = files.filter((file) => file.endsWith(".png"));
+                const urls = images.map((image) =>
+                    URL.createObjectURL(
+                        new Blob([await this.ffmpeg.FS("readFile", image)], {
+                            type: "image/png",
+                        })
+                    )
+                );
+                output = { urls };
                 return output;
             default:
                 throw new Error("Invalid format");
