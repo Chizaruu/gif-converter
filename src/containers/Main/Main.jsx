@@ -7,7 +7,7 @@ export function Main() {
     const [ready, setReady] = useState(false);
     const [input, setInput] = useState(null);
     const [format, setFormat] = useState("mp4");
-    const [output, setOutput] = useState({ file: null, url: "" });
+    const [output, setOutput] = useState({ file: null, url: [""] });
 
     function handleInput(file) {
         setInput(file);
@@ -22,6 +22,11 @@ export function Main() {
     function handleDownload() {
         if (output.url === "") {
             console.log("No file to download");
+            return;
+        }
+
+        if (output.url.length > 1) {
+            console.log("Multiple files to download");
             return;
         }
 

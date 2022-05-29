@@ -57,7 +57,7 @@ export class FFmpegUser {
                     "0:v",
                     "-r",
                     "1",
-                    "out_%06d.png"
+                    "out_%03d.png"
                 );
 
                 const files = this.ffmpeg.FS("readdir", ".");
