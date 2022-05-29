@@ -60,11 +60,11 @@ export class FFmpegUser {
                     "out_%06d.png"
                 );
 
-                const files = await this.ffmpeg.FS("readdir", ".");
+                const files = this.ffmpeg.FS("readdir", ".");
                 const images = files.filter((file) => file.endsWith(".png"));
                 const urls = images.map((image) =>
                     URL.createObjectURL(
-                        new Blob([await this.ffmpeg.FS("readFile", image)], {
+                        new Blob([this.ffmpeg.FS("readFile", image)], {
                             type: "image/png",
                         })
                     )
