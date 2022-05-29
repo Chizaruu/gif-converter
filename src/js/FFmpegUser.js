@@ -49,6 +49,24 @@ export class FFmpegUser {
                 const url = URL.createObjectURL(blob);
                 output = { blob, url };
                 return output;
+            case "png":
+                await this.ffmpeg.run(
+                    "-f",
+                    "gif",
+                    "-i",
+                    "input.gif",
+                    "-pix_fmt",
+                    "rgb24",
+                    "-vf",
+                    "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                    "output.png"
+                );
+
+                const data2 = await this.ffmpeg.FS("readFile", "output.png");
+                const blob2 = new Blob([data2.buffer], { type: "image/png" });
+                const url2 = URL.createObjectURL(blob2);
+                output = { blob: blob2, url: url2 };
+                return output;
             default:
                 throw new Error("Invalid format");
         }
