@@ -52,8 +52,10 @@ export class FFmpegUser {
             case "png":
                 await this.ffmpeg.run(
                     "-i",
-                    "input.gif",
+                    "convert",
                     "-coalesce",
+                    "-update",
+                    "input.gif",
                     "output.png"
                 );
 
