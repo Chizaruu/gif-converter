@@ -23,11 +23,11 @@ export class FFmpegUser {
         }
     }
 
-    async convert(input, format, output) {
+    async convert(input, format) {
         if (!input) {
             return;
         }
-        await this.ffmpeg.FS("writeFile", "input.gif", await fetchFile(input));
+        this.ffmpeg.FS("writeFile", "input.gif", await fetchFile(input));
         switch (format) {
             case "mp4":
                 await this.ffmpeg.run(
@@ -44,11 +44,10 @@ export class FFmpegUser {
                     "output.mp4"
                 );
 
-                const data = await this.ffmpeg.FS("readFile", "output.mp4");
+                const data = this.ffmpeg.FS("readFile", "output.mp4");
                 const blob = new Blob([data.buffer], { type: "video/mp4" });
                 const url = URL.createObjectURL(blob);
-                output = { blob, url };
-                return output;
+                return [url];
             case "png":
                 await this.ffmpeg.run(
                     "-i",
@@ -56,21 +55,21 @@ export class FFmpegUser {
                     "-map",
                     "0:v",
                     "-r",
-                    "1",
+                    "5",
                     "out_%03d.png"
                 );
 
-                const files = this.ffmpeg.FS("readdir", ".");
-                const images = files.filter((file) => file.endsWith(".png"));
-                const urls = images.map((image) =>
-                    URL.createObjectURL(
-                        new Blob([this.ffmpeg.FS("readFile", image)], {
+                return this.ffmpeg
+                    .FS("readdir", ".")
+                    .filter((file) => file.endsWith(".png"))
+                    .map((file) => {
+                        const data = this.ffmpeg.FS("readFile", file);
+                        const blob = new Blob([data.buffer], {
                             type: "image/png",
-                        })
-                    )
-                );
-                output = { urls };
-                return output;
+                        });
+                        const url = URL.createObjectURL(blob);
+                        return url;
+                    });
             default:
                 throw new Error("Invalid format");
         }
@@ -85,5 +84,13 @@ export class FFmpegUser {
 
     isLoaded() {
         return this.loadable;
+    }
+
+    async destroy(output) {
+        if (output && output.length)
+            this.ffmpeg
+                .FS("readdir", ".")
+                .filter((file) => file.endsWith(".png"))
+                .map((file) => this.ffmpeg.FS("unlink", file));
     }
 }

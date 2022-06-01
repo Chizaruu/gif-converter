@@ -1,36 +1,26 @@
 import { useState, useEffect } from "react";
 import styles from "./Main.module.scss";
 import { FFmpegUser } from "../../js/FFmpegUser";
+import { ImageHandler } from "../../components/ImageHandler/ImageHandler";
 
 export function Main() {
     const [ffmpegUser] = useState(new FFmpegUser());
     const [ready, setReady] = useState(false);
     const [input, setInput] = useState(null);
     const [format, setFormat] = useState("mp4");
-    const [output, setOutput] = useState({ file: null, url: [""] });
+    const [output, setOutput] = useState([]);
 
     function handleInput(file) {
         setInput(file);
     }
 
-    async function handleOutput() {
-        const file = await ffmpegUser.convert(input, format);
-        setOutput(file);
-        setInput(null);
-    }
-
     function handleDownload() {
-        if (output.url === "") {
+        if (output === null) {
             console.log("No file to download");
             return;
         }
 
-        if (output.url.length > 1) {
-            console.log("Multiple files to download");
-            return;
-        }
-
-        ffmpegUser.download(output.url);
+        ffmpegUser.download(output);
     }
 
     useEffect(() => {
@@ -45,7 +35,11 @@ export function Main() {
 
     useEffect(() => {
         if (ready && input) {
-            handleOutput();
+            (async () => {
+                await ffmpegUser.destroy(output);
+                setOutput(await ffmpegUser.convert(input, format));
+            })();
+            setInput(null);
         }
         // eslint-disable-next-line
     }, [ready, input]);
@@ -82,7 +76,10 @@ export function Main() {
                 <div>
                     <h3>~ Output ~</h3>
                     <div>
-                        <video id="video" src={output.url} controls loop />
+                        {format === "png" && <ImageHandler urls={output} />}
+                        {format === "mp4" && (
+                            <video src={output[0]} width="250" controls loop />
+                        )}
                         <button onClick={() => handleDownload()}>
                             Download
                         </button>
