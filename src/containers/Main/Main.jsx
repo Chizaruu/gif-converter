@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./Main.module.scss";
 import { FFmpegUser } from "../../js/FFmpegUser";
+import { ImageHandler } from "../../components/ImageHandler/ImageHandler";
 
 export function Main() {
     const [ffmpegUser] = useState(new FFmpegUser());
@@ -11,11 +12,6 @@ export function Main() {
 
     function handleInput(file) {
         setInput(file);
-    }
-
-    async function handleOutput() {
-        setOutput(await ffmpegUser.convert(input, format));
-        setInput(null);
     }
 
     function handleDownload() {
@@ -39,7 +35,11 @@ export function Main() {
 
     useEffect(() => {
         if (ready && input) {
-            handleOutput();
+            (async () => {
+                await ffmpegUser.destroy(output);
+                setOutput(await ffmpegUser.convert(input, format));
+            })();
+            setInput(null);
         }
         // eslint-disable-next-line
     }, [ready, input]);
@@ -76,7 +76,10 @@ export function Main() {
                 <div>
                     <h3>~ Output ~</h3>
                     <div>
-                        <video id="video" src={output[0]} controls loop />
+                        {format === "png" && <ImageHandler urls={output} />}
+                        {format === "mp4" && (
+                            <video src={output[0]} width="250" controls loop />
+                        )}
                         <button onClick={() => handleDownload()}>
                             Download
                         </button>

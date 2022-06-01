@@ -55,19 +55,21 @@ export class FFmpegUser {
                     "-map",
                     "0:v",
                     "-r",
-                    "1",
+                    "5",
                     "out_%03d.png"
                 );
-                const files = this.ffmpeg.FS("readdir", ".");
-                const images = files.filter((file) => file.endsWith(".png"));
-                const urls = images.map((image) => {
-                    const data = this.ffmpeg.FS("readFile", image);
-                    const blob = new Blob([data.buffer], { type: "image/png" });
-                    const url = URL.createObjectURL(blob);
-                    return url;
-                });
-                console.log(urls);
-                return urls;
+
+                return this.ffmpeg
+                    .FS("readdir", ".")
+                    .filter((file) => file.endsWith(".png"))
+                    .map((file) => {
+                        const data = this.ffmpeg.FS("readFile", file);
+                        const blob = new Blob([data.buffer], {
+                            type: "image/png",
+                        });
+                        const url = URL.createObjectURL(blob);
+                        return url;
+                    });
             default:
                 throw new Error("Invalid format");
         }
@@ -82,5 +84,13 @@ export class FFmpegUser {
 
     isLoaded() {
         return this.loadable;
+    }
+
+    async destroy(output) {
+        if (output && output.length)
+            this.ffmpeg
+                .FS("readdir", ".")
+                .filter((file) => file.endsWith(".png"))
+                .map((file) => this.ffmpeg.FS("unlink", file));
     }
 }
