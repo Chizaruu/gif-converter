@@ -51,15 +51,7 @@ export class FFmpegUser {
                 const url = URL.createObjectURL(blob);
                 return [url];
             case "png":
-                await this.ffmpeg.run(
-                    "-i",
-                    "input.gif",
-                    "-map",
-                    "0:v",
-                    "-r",
-                    "5",
-                    "out_%03d.png"
-                );
+                await this.ffmpeg.run("-i", "input.gif", "out_%03d.png");
 
                 const files = this.ffmpeg
                     .FS("readdir", ".")
