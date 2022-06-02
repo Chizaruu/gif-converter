@@ -13,6 +13,7 @@
         "@ffmpeg/core": "^0.9.0",
         "@ffmpeg/ffmpeg": "^0.9.8",
         "client-zip": "^2.2.2",
+        "file-saver": "^2.0.5",
         "prop-types": "^15.8.1",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
