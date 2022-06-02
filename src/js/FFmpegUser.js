@@ -1,4 +1,6 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { downloadZip } from "client-zip";
+import FileSaver from "file-saver";
 
 export class FFmpegUser {
     constructor() {
@@ -59,27 +61,49 @@ export class FFmpegUser {
                     "out_%03d.png"
                 );
 
-                return this.ffmpeg
+                const files = this.ffmpeg
                     .FS("readdir", ".")
-                    .filter((file) => file.endsWith(".png"))
-                    .map((file) => {
-                        const data = this.ffmpeg.FS("readFile", file);
-                        const blob = new Blob([data.buffer], {
-                            type: "image/png",
-                        });
-                        const url = URL.createObjectURL(blob);
-                        return url;
-                    });
+                    .filter((file) => file.endsWith(".png"));
+
+                const urls = files.map((file) => {
+                    const data = this.ffmpeg.FS("readFile", file);
+                    const blob = new Blob([data.buffer], { type: "image/png" });
+                    const url = URL.createObjectURL(blob);
+                    return url;
+                });
+
+                return urls;
             default:
                 throw new Error("Invalid format");
         }
     }
 
-    download(url) {
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "output.mp4";
-        a.click();
+    async download(output, format) {
+        if (output && output.length) {
+            switch (format) {
+                case "mp4":
+                    const data = this.ffmpeg.FS("readFile", "output.mp4");
+                    const blob = new Blob([data.buffer], { type: "video/mp4" });
+                    FileSaver.saveAs(blob, "output.mp4");
+                    break;
+                case "png":
+                    let number = 1;
+                    async function* downloadGenerator() {
+                        for (const url of output) {
+                            yield {
+                                input: await fetch(url),
+                                name: `output${number++}.png`,
+                            };
+                        }
+                    }
+
+                    const zip = await downloadZip(downloadGenerator()).blob();
+                    FileSaver.saveAs(zip, "output.zip");
+                    break;
+                default:
+                    throw new Error("Invalid format");
+            }
+        }
     }
 
     isLoaded() {

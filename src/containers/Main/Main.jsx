@@ -14,19 +14,20 @@ export function Main() {
         setInput(file);
     }
 
-    function handleDownload() {
+    async function handleDownload() {
         if (output === null) {
             console.log("No file to download");
             return;
         }
 
-        ffmpegUser.download(output);
+        await ffmpegUser.download(output, format);
     }
 
     useEffect(() => {
         (async () => {
             await ffmpegUser.load();
         })();
+
         if (ffmpegUser.isLoaded()) {
             setReady(true);
         }
