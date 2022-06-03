@@ -137,11 +137,13 @@ export class FFmpegUser {
                             this.makeImageBlob("horizontalStrip.png"),
                             "horizontalStrip.png"
                         );
+                        break;
                     case "Vertical Strip":
                         FileSaver.saveAs(
                             this.makeImageBlob("verticalStrip.png"),
                             "verticalStrip.png"
                         );
+                        break;
                     default:
                         throw new Error("Invalid type");
                 }
