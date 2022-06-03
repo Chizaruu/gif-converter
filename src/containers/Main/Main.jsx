@@ -8,6 +8,7 @@ export function Main() {
     const [ready, setReady] = useState(false);
     const [input, setInput] = useState(null);
     const [format, setFormat] = useState("mp4");
+    const [type, setType] = useState("Individual");
     const [output, setOutput] = useState([]);
 
     function handleInput(file) {
@@ -20,7 +21,7 @@ export function Main() {
             return;
         }
 
-        await ffmpegUser.download(output, format);
+        await ffmpegUser.download(output, format, type);
     }
 
     useEffect(() => {
@@ -38,7 +39,7 @@ export function Main() {
         if (ready && input) {
             (async () => {
                 await ffmpegUser.destroy(output);
-                setOutput(await ffmpegUser.convert(input, format));
+                setOutput(await ffmpegUser.convert(input, format, type));
             })();
             setInput(null);
         }
@@ -71,13 +72,38 @@ export function Main() {
                                 <option value="mp4">mp4</option>
                                 <option value="png">png</option>
                             </select>
+                            {format === "png" && (
+                                <label htmlFor="type">Type:</label>
+                            )}
+                            {format === "png" && (
+                                <select
+                                    name="type"
+                                    id="type"
+                                    onChange={(e) => setType(e.target.value)}
+                                >
+                                    <option value="Individual">
+                                        Individual
+                                    </option>
+                                    <option value="Spritesheet">
+                                        Spritesheet
+                                    </option>
+                                    <option value="Horizontal Strip">
+                                        Horizontal Strip
+                                    </option>
+                                    <option value="Vertical Strip">
+                                        Vertical Strip
+                                    </option>
+                                </select>
+                            )}
                         </span>
                     </div>
                 </div>
                 <div>
                     <h3>~ Output ~</h3>
                     <div>
-                        {format === "png" && <ImageHandler urls={output} />}
+                        {format === "png" && (
+                            <ImageHandler urls={output} type={type} />
+                        )}
                         {format === "mp4" && (
                             <video src={output[0]} width="250" controls loop />
                         )}

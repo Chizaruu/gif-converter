@@ -25,7 +25,7 @@ export class FFmpegUser {
         }
     }
 
-    async convert(input, format) {
+    async convert(input, format, type) {
         if (!input) return;
 
         this.ffmpeg.FS("writeFile", "input.gif", await fetchFile(input));
@@ -51,26 +51,65 @@ export class FFmpegUser {
                 const url = URL.createObjectURL(blob);
                 return [url];
             case "png":
-                await this.ffmpeg.run("-i", "input.gif", "out_%03d.png");
-
+                await this.ffmpeg.run("-i", "input.gif", "out_%06d.png");
                 const files = this.ffmpeg
                     .FS("readdir", ".")
                     .filter((file) => file.endsWith(".png"));
+                const ffmpegInputs = [
+                    "-i",
+                    "input.gif",
+                    "-f",
+                    "image2",
+                    "-vf",
+                    "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                    "-vsync",
+                    "0",
+                    "-vf",
+                ];
+                switch (type) {
+                    case "Individual":
+                        const urls = files.map((file) => {
+                            return this.makeUrl(file);
+                        });
 
-                const urls = files.map((file) => {
-                    const data = this.ffmpeg.FS("readFile", file);
-                    const blob = new Blob([data.buffer], { type: "image/png" });
-                    const url = URL.createObjectURL(blob);
-                    return url;
-                });
-
-                return urls;
+                        return urls;
+                    case "Spritesheet":
+                        await this.ffmpeg.run(
+                            ...ffmpegInputs,
+                            `tile=7x${Math.ceil(files.length / 7)}`,
+                            "out.png"
+                        );
+                        return [this.makeUrl("out.png")];
+                    case "Horizontal Strip":
+                        await this.ffmpeg.run(
+                            ...ffmpegInputs,
+                            `tile=${files.length}x1`,
+                            "out.png"
+                        );
+                        return [this.makeUrl("out.png")];
+                    case "Vertical Strip":
+                        await this.ffmpeg.run(
+                            ...ffmpegInputs,
+                            `tile=1x${files.length}`,
+                            "out.png"
+                        );
+                        return [this.makeUrl("out.png")];
+                    default:
+                        throw new Error("Invalid type");
+                }
             default:
                 throw new Error("Invalid format");
         }
     }
 
-    async download(output, format) {
+    makeUrl(image) {
+        const data = this.ffmpeg.FS("readFile", image);
+        const blob = new Blob([data.buffer], { type: "image/png" });
+        const url = URL.createObjectURL(blob);
+        return url;
+    }
+
+    async download(output, format, type) {
         switch (format) {
             case "mp4":
                 const data = this.ffmpeg.FS("readFile", "output.mp4");
@@ -78,18 +117,34 @@ export class FFmpegUser {
                 FileSaver.saveAs(blob, "output.mp4");
                 break;
             case "png":
-                let number = 1;
-                async function* downloadGenerator() {
-                    for (const url of output) {
-                        yield {
-                            input: await fetch(url),
-                            name: `output${number++}.png`,
-                        };
-                    }
+                switch (type) {
+                    case "Individual":
+                        let number = 1;
+                        async function* downloadGenerator() {
+                            for (const url of output) {
+                                yield {
+                                    input: await fetch(url),
+                                    name: `output${number++}.png`,
+                                };
+                            }
+                        }
+                        const zip = await downloadZip(
+                            downloadGenerator()
+                        ).blob();
+                        FileSaver.saveAs(zip, "output.zip");
+                        break;
+                    case "Spritesheet":
+                    case "Horizontal strip":
+                    case "Vertical strip":
+                        const data = this.ffmpeg.FS("readFile", "output.png");
+                        const blob = new Blob([data.buffer], {
+                            type: "image/png",
+                        });
+                        FileSaver.saveAs(blob, "output.png");
+                        break;
+                    default:
+                        throw new Error("Invalid type");
                 }
-
-                const zip = await downloadZip(downloadGenerator()).blob();
-                FileSaver.saveAs(zip, "output.zip");
                 break;
             default:
                 throw new Error("Invalid format");
