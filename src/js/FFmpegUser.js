@@ -69,7 +69,7 @@ export class FFmpegUser {
                 switch (type) {
                     case "Individual":
                         const urls = files.map((file) => {
-                            return this.makeUrl(file);
+                            return this.makeImageUrl(file);
                         });
 
                         return urls;
@@ -77,36 +77,29 @@ export class FFmpegUser {
                         await this.ffmpeg.run(
                             ...ffmpegInputs,
                             `tile=7x${Math.ceil(files.length / 7)}`,
-                            "out.png"
+                            "spritesheet.png"
                         );
-                        return [this.makeUrl("out.png")];
+                        return [this.makeImageUrl("spritesheet.png")];
                     case "Horizontal Strip":
                         await this.ffmpeg.run(
                             ...ffmpegInputs,
                             `tile=${files.length}x1`,
-                            "out.png"
+                            "horizontalStrip.png"
                         );
-                        return [this.makeUrl("out.png")];
+                        return [this.makeImageUrl("horizontalStrip.png")];
                     case "Vertical Strip":
                         await this.ffmpeg.run(
                             ...ffmpegInputs,
                             `tile=1x${files.length}`,
-                            "out.png"
+                            "verticalStrip.png"
                         );
-                        return [this.makeUrl("out.png")];
+                        return [this.makeImageUrl("verticalStrip.png")];
                     default:
                         throw new Error("Invalid type");
                 }
             default:
                 throw new Error("Invalid format");
         }
-    }
-
-    makeUrl(image) {
-        const data = this.ffmpeg.FS("readFile", image);
-        const blob = new Blob([data.buffer], { type: "image/png" });
-        const url = URL.createObjectURL(blob);
-        return url;
     }
 
     async download(output, format, type) {
@@ -134,14 +127,21 @@ export class FFmpegUser {
                         FileSaver.saveAs(zip, "output.zip");
                         break;
                     case "Spritesheet":
-                    case "Horizontal strip":
-                    case "Vertical strip":
-                        const data = this.ffmpeg.FS("readFile", "output.png");
-                        const blob = new Blob([data.buffer], {
-                            type: "image/png",
-                        });
-                        FileSaver.saveAs(blob, "output.png");
+                        FileSaver.saveAs(
+                            this.makeImageBlob("spritesheet.png"),
+                            "spritesheet.png"
+                        );
                         break;
+                    case "Horizontal Strip":
+                        FileSaver.saveAs(
+                            this.makeImageBlob("horizontalStrip.png"),
+                            "horizontalStrip.png"
+                        );
+                    case "Vertical Strip":
+                        FileSaver.saveAs(
+                            this.makeImageBlob("verticalStrip.png"),
+                            "verticalStrip.png"
+                        );
                     default:
                         throw new Error("Invalid type");
                 }
@@ -149,6 +149,21 @@ export class FFmpegUser {
             default:
                 throw new Error("Invalid format");
         }
+    }
+
+    makeImageUrl(image) {
+        const data = this.ffmpeg.FS("readFile", image);
+        const blob = new Blob([data.buffer], { type: "image/png" });
+        const url = URL.createObjectURL(blob);
+        return url;
+    }
+
+    makeImageBlob(file) {
+        const data = this.ffmpeg.FS("readFile", file);
+        const blob = new Blob([data.buffer], {
+            type: "image/png",
+        });
+        return blob;
     }
 
     isLoaded() {
