@@ -26,10 +26,10 @@ export class FFmpegUser {
     }
 
     async convert(input, format) {
-        if (!input) {
-            return;
-        }
+        if (!input) return;
+
         this.ffmpeg.FS("writeFile", "input.gif", await fetchFile(input));
+
         switch (format) {
             case "mp4":
                 await this.ffmpeg.run(
@@ -71,30 +71,28 @@ export class FFmpegUser {
     }
 
     async download(output, format) {
-        if (output && output.length) {
-            switch (format) {
-                case "mp4":
-                    const data = this.ffmpeg.FS("readFile", "output.mp4");
-                    const blob = new Blob([data.buffer], { type: "video/mp4" });
-                    FileSaver.saveAs(blob, "output.mp4");
-                    break;
-                case "png":
-                    let number = 1;
-                    async function* downloadGenerator() {
-                        for (const url of output) {
-                            yield {
-                                input: await fetch(url),
-                                name: `output${number++}.png`,
-                            };
-                        }
+        switch (format) {
+            case "mp4":
+                const data = this.ffmpeg.FS("readFile", "output.mp4");
+                const blob = new Blob([data.buffer], { type: "video/mp4" });
+                FileSaver.saveAs(blob, "output.mp4");
+                break;
+            case "png":
+                let number = 1;
+                async function* downloadGenerator() {
+                    for (const url of output) {
+                        yield {
+                            input: await fetch(url),
+                            name: `output${number++}.png`,
+                        };
                     }
+                }
 
-                    const zip = await downloadZip(downloadGenerator()).blob();
-                    FileSaver.saveAs(zip, "output.zip");
-                    break;
-                default:
-                    throw new Error("Invalid format");
-            }
+                const zip = await downloadZip(downloadGenerator()).blob();
+                FileSaver.saveAs(zip, "output.zip");
+                break;
+            default:
+                throw new Error("Invalid format");
         }
     }
 
