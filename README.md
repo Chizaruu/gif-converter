@@ -31,9 +31,6 @@ This tool was designed to convert gifs to mp4s and pngs. It was created to help 
 
 -   Add better mobile support
 -   Improve SCSS styling and implementation.
--   Add spritesheet support
--   Add horizontal strip support
--   Add vertical strip support
 
 ## Front End Tech
 
