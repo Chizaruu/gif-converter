@@ -37,14 +37,14 @@ export function Main() {
 
     useEffect(() => {
         if (ready && input) {
+            setOutput([]);
             (async () => {
                 await ffmpegUser.destroy(output);
                 setOutput(await ffmpegUser.convert(input, format, type));
             })();
-            setInput(null);
         }
         // eslint-disable-next-line
-    }, [ready, input]);
+    }, [ready, input, format, type]);
 
     return (
         <main className={styles.main}>
