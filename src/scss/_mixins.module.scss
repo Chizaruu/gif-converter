@@ -1,7 +1,9 @@
 // Devices
-$device-sizes: (phone: 450px,
+$device-sizes: (
+    phone: 450px,
     tablet: 880px,
-    desktop: 1024px);
+    desktop: 1024px,
+);
 
 @mixin phone {
     @media only screen and (max-width: map-get($device-sizes, phone)) {
@@ -21,6 +23,57 @@ $device-sizes: (phone: 450px,
     }
 }
 
+$resolution-sizes: (
+    small: 48em /* 768px */,
+    medium: 64em /* 1024px */,
+    large: 85.375em /* 1366px */,
+    xlarge: 120em /* 1920px */,
+    xxlarge: 160em /* 2560px */,
+    xxxlarge: 192em /* 3200px */,
+    xxxxlarge: 240em /* 3840px */,
+);
+
+@mixin small-screen {
+    @media only screen and (max-width: map-get($resolution-sizes, small)) {
+        @content;
+    }
+}
+
+@mixin medium-screen {
+    @media only screen and (min-width: (map-get($resolution-sizes, small) + 1)) and (max-width: map-get($resolution-sizes, medium)) {
+        @content;
+    }
+}
+
+@mixin large-screen {
+    @media only screen and (min-width: (map-get($resolution-sizes, medium) + 1)) and (max-width: map-get($resolution-sizes, large)) {
+        @content;
+    }
+}
+
+@mixin xlarge-screen {
+    @media only screen and (min-width: (map-get($resolution-sizes, large) + 1)) and (max-width: map-get($resolution-sizes, xlarge)) {
+        @content;
+    }
+}
+
+@mixin xxlarge-screen {
+    @media only screen and (min-width: (map-get($resolution-sizes, xlarge) + 1)) and (max-width: map-get($resolution-sizes, xxlarge)) {
+        @content;
+    }
+}
+
+@mixin xxxlarge-screen {
+    @media only screen and (min-width: (map-get($resolution-sizes, xxlarge) + 1)) and (max-width: map-get($resolution-sizes, xxxlarge)) {
+        @content;
+    }
+}
+
+@mixin xxxxlarge-screen {
+    @media only screen and (min-width: (map-get($resolution-sizes, xxxlarge) + 1)) {
+        @content;
+    }
+}
 
 //Themes
 @mixin light {
@@ -41,20 +94,58 @@ $device-sizes: (phone: 450px,
 
 //Technicals
 @mixin display-image($device-size) {
-    @if($device-size !=map-get($device-sizes, phone)) {
-        @if($device-size !=map-get($device-sizes, tablet)) {
+    @if ($device-size !=map-get($device-sizes, phone)) {
+        @if ($device-size !=map-get($device-sizes, tablet)) {
             width: 50%;
             height: 100%;
-        }
-
-        @else {
+        } @else {
             width: 75%;
             height: 100%;
         }
-    }
-
-    @else {
+    } @else {
         width: 0%;
         height: 0%;
+    }
+}
+
+@mixin section-background-primary {
+    @include light {
+        background-color: map-get(p.$light-theme-colors, primary);
+    }
+
+    @include dark {
+        background-color: map-get(p.$dark-theme-colors, primary);
+    }
+}
+
+@mixin section-background-secondary {
+    @include light {
+        background-color: map-get(p.$light-theme-colors, secondary);
+    }
+
+    @include dark {
+        background-color: map-get(p.$dark-theme-colors, secondary);
+    }
+}
+
+@mixin section-display(
+    $display,
+    $flex-direction,
+    $align-items,
+    $justify-content,
+    $text-align
+) {
+    display: $display;
+    flex-direction: $flex-direction;
+    align-items: $align-items;
+    justify-content: $justify-content;
+    text-align: $text-align;
+}
+
+@mixin section-display-icon {
+    @include light {
+        &--invert {
+            filter: invert(1);
+        }
     }
 }
