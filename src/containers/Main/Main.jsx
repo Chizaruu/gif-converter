@@ -48,12 +48,12 @@ export function Main() {
 
     return (
         <main className={styles.main}>
-            <div>
-                <div>
+            <div className={styles.Container}>
+                <div className={styles.Container__Input}>
                     <h3>~ Input ~</h3>
-                    <div>
-                        <span>
-                            <label htmlFor="upload">Select Gif:</label>
+                    <ul>
+                        <li>
+                            <label htmlFor="upload">Select Gif</label>
                             <input
                                 type="file"
                                 id="input"
@@ -62,9 +62,9 @@ export function Main() {
                                     handleInput(e.target.files[0], "image/gif")
                                 }
                             />
-                        </span>
-                        <span>
-                            <label htmlFor="format">Format:</label>
+                        </li>
+                        <li>
+                            <label htmlFor="format">Format</label>
                             <select
                                 id="format"
                                 onChange={(e) => setFormat(e.target.value)}
@@ -72,10 +72,10 @@ export function Main() {
                                 <option value="mp4">mp4</option>
                                 <option value="png">png</option>
                             </select>
-                            {format === "png" && (
-                                <label htmlFor="type">Type:</label>
-                            )}
-                            {format === "png" && (
+                        </li>
+                        {format === "png" && (
+                            <li>
+                                <label htmlFor="type">Type</label>
                                 <select
                                     name="type"
                                     id="type"
@@ -94,23 +94,21 @@ export function Main() {
                                         Vertical Strip
                                     </option>
                                 </select>
-                            )}
-                        </span>
-                    </div>
+                            </li>
+                        )}
+                    </ul>
                 </div>
-                <div>
+                <div className={styles.Container__Output}>
                     <h3>~ Output ~</h3>
                     <div>
                         {format === "png" && (
                             <ImageHandler urls={output} type={type} />
                         )}
                         {format === "mp4" && (
-                            <video src={output[0]} width="250" controls loop />
+                            <video src={output[0]} controls loop />
                         )}
-                        <button onClick={() => handleDownload()}>
-                            Download
-                        </button>
                     </div>
+                    <button onClick={() => handleDownload()}>Download</button>
                 </div>
             </div>
         </main>

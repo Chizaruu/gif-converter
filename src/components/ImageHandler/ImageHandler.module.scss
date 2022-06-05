@@ -1,0 +1,54 @@
+%ImgSetUp {
+    display: flex;
+    width: 400px;
+    height: 400px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ImageHandler {
+    @extend %ImgSetUp;
+    &__Individual {
+        @extend %ImgSetUp;
+        justify-content: center;
+        flex-flow: row wrap;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+
+        img {
+            width: 45%;
+            padding: 3px;
+        }
+    }
+
+    &__Spritesheet {
+        @extend %ImgSetUp;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    &__HorizontalStrip {
+        @extend %ImgSetUp;
+        overflow: -moz-scrollbars-horizontal;
+        overflow-x: scroll;
+
+        img {
+            height: 50%;
+        }
+    }
+
+    &__VerticalStrip {
+        @extend %ImgSetUp;
+        flex-direction: column;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+
+        img {
+            width: 50%;
+        }
+    }
+}
