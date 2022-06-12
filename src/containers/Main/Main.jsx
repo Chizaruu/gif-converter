@@ -48,69 +48,55 @@ export function Main() {
 
     return (
         <main className={styles.main}>
-            <div>
-                <div>
+            <div className={styles.Container}>
+                <div className={styles.Container__Input}>
                     <h3>~ Input ~</h3>
-                    <div>
-                        <span>
-                            <label htmlFor="upload">Select Gif:</label>
-                            <input
-                                type="file"
-                                id="input"
-                                accept="image/gif"
-                                onChange={(e) =>
-                                    handleInput(e.target.files[0], "image/gif")
-                                }
-                            />
-                        </span>
-                        <span>
-                            <label htmlFor="format">Format:</label>
-                            <select
-                                id="format"
-                                onChange={(e) => setFormat(e.target.value)}
-                            >
-                                <option value="mp4">mp4</option>
-                                <option value="png">png</option>
-                            </select>
-                            {format === "png" && (
-                                <label htmlFor="type">Type:</label>
-                            )}
-                            {format === "png" && (
-                                <select
-                                    name="type"
-                                    id="type"
-                                    onChange={(e) => setType(e.target.value)}
-                                >
-                                    <option value="Individual">
-                                        Individual
-                                    </option>
-                                    <option value="Spritesheet">
-                                        Spritesheet
-                                    </option>
-                                    <option value="Horizontal Strip">
-                                        Horizontal Strip
-                                    </option>
-                                    <option value="Vertical Strip">
-                                        Vertical Strip
-                                    </option>
-                                </select>
-                            )}
-                        </span>
-                    </div>
+                    <h4>Select Gif</h4>
+                    <input
+                        type="file"
+                        id="input"
+                        accept="image/gif"
+                        onChange={(e) =>
+                            handleInput(e.target.files[0], "image/gif")
+                        }
+                    />
+                    <h4>Format</h4>
+                    <select
+                        id="format"
+                        onChange={(e) => setFormat(e.target.value)}
+                    >
+                        <option value="mp4">mp4</option>
+                        <option value="png">png</option>
+                    </select>
+                    {format === "png" && <h4>Type</h4>}
+                    {format === "png" && (
+                        <select
+                            name="type"
+                            id="type"
+                            onChange={(e) => setType(e.target.value)}
+                        >
+                            <option value="Individual">Individual</option>
+                            <option value="Spritesheet">Spritesheet</option>
+                            <option value="Horizontal Strip">
+                                Horizontal Strip
+                            </option>
+                            <option value="Vertical Strip">
+                                Vertical Strip
+                            </option>
+                        </select>
+                    )}
                 </div>
-                <div>
+                <div className={styles.Container__Output}>
                     <h3>~ Output ~</h3>
                     <div>
                         {format === "png" && (
                             <ImageHandler urls={output} type={type} />
                         )}
                         {format === "mp4" && (
-                            <video src={output[0]} width="250" controls loop />
+                            <video src={output[0]} controls loop />
                         )}
-                        <button onClick={() => handleDownload()}>
-                            Download
-                        </button>
                     </div>
+                    <button onClick={() => handleDownload()}>Download</button>
                 </div>
             </div>
         </main>

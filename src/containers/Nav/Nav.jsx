@@ -4,7 +4,7 @@ export function Nav() {
     return (
         <nav className={styles.navbar}>
             <a className={styles.navbar__link} href="/" title="Hello World!">
-                &lt;Abdul Kadir Coskun /&gt; - My Utilities
+                &lt;Abdul Kadir Coskun /&gt;
             </a>
             <input id={styles.hamburger_toggle} type="checkbox" />
             <label

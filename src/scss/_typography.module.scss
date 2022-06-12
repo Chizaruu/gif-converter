@@ -17,38 +17,37 @@ $font-family-styles: (
     ),
 );
 
+//base font sizes
+$font-sizes: (
+    heading: (
+        small: 1em,
+        medium: 1.2em,
+        large: 1.4em,
+        xlarge: 1.6em,
+        xxlarge: 1.8em,
+        xxxlarge: 2em,
+        xxxxlarge: 2.2em,
+    ),
+    base: (
+        small: 1em,
+        medium: 1.1em,
+        large: 1.3em,
+        xlarge: 1.5em,
+        xxlarge: 1.7em,
+        xxxlarge: 2.2em,
+        xxxxlarge: 2.8em,
+    ),
+);
+
+$base-line-height: 1.5;
+$header-line-height: 1.25;
+
 // Font weights
 $font-weights: (
     bolder: 900,
     bold: 700,
     normal: 500,
     light: 300,
-);
-
-// Font size
-$font-sizes-headings: (
-    h1: 3rem,
-    h2: 2.5rem,
-    h3: 2rem,
-    h4: 1.75rem,
-    h5: 1.5rem,
-    h6: 1.25rem,
-);
-
-$font-sizes-text: (
-    base: 0.75rem,
-    small: 0.625rem,
-    medium: 0.875rem,
-    large: 1rem,
-    xlarge: 1.25rem,
-    xxlarge: 1.5rem,
-);
-
-// Line-height
-$line-heights: (
-    loose: 1.75,
-    normal: 1.5,
-    tight: 1.25,
 );
 
 // Letter-spacing
@@ -72,10 +71,34 @@ $letter-spacings: (
 
 %font-headings {
     font-family: map-get($font-family-styles, heading);
-    line-height: map-get($line-heights, normal);
     letter-spacing: map-get($letter-spacings, normal);
     font-weight: map-get($font-weights, bold);
     white-space: nowrap;
+    font-size: map-get($font-sizes, heading, small);
+
+    @include m.medium-screen {
+        font-size: map-get($font-sizes, heading, medium);
+    }
+
+    @include m.large-screen {
+        font-size: map-get($font-sizes, heading, large);
+    }
+
+    @include m.xlarge-screen {
+        font-size: map-get($font-sizes, heading, xlarge);
+    }
+
+    @include m.xxlarge-screen {
+        font-size: map-get($font-sizes, heading, xxlarge);
+    }
+
+    @include m.xxxlarge-screen {
+        font-size: map-get($font-sizes, heading, xxxlarge);
+    }
+
+    @include m.xxxxlarge-screen {
+        font-size: map-get($font-sizes, heading, xxxxlarge);
+    }
 }
 
 //headings
@@ -89,64 +112,83 @@ h6 {
     @extend %data-theme;
 }
 
-h1 {
-    font-size: map-get($font-sizes-headings, h1);
-
-    @include m.phone {
-        font-size: map-get($font-sizes-headings, h4);
-    }
-}
-
-h2 {
-    font-size: map-get($font-sizes-headings, h2);
-
-    @include m.phone {
-        font-size: map-get($font-sizes-headings, h5);
-    }
-}
-
 //text
 p,
 a,
-li,
-span,
-label,
 footer {
     font-family: map-get($font-family-styles, base);
-    line-height: map-get($line-heights, normal);
+    font-size: map-get($font-sizes, base, small);
+    line-height: $base-line-height;
 
-    @include m.phone {
-        font-size: map-get($font-sizes-text, small);
+    @include m.medium-screen {
+        font-size: map-get($font-sizes, base, medium);
+        line-height: $base-line-height * 1.2;
     }
 
-    @include m.tablet {
-        font-size: map-get($font-sizes-text, medium);
+    @include m.large-screen {
+        font-size: map-get($font-sizes, base, large);
     }
 
-    @include m.desktop {
-        font-size: map-get($font-sizes-text, xlarge);
+    @include m.xlarge-screen {
+        font-size: map-get($font-sizes, base, xlarge);
+    }
+
+    @include m.xxlarge-screen {
+        font-size: map-get($font-sizes, base, xxlarge);
+    }
+
+    @include m.xxxlarge-screen {
+        font-size: map-get($font-sizes, base, xxxlarge);
+    }
+
+    @include m.xxxxlarge-screen {
+        font-size: map-get($font-sizes, base, xxxxlarge);
     }
 
     @extend %data-theme;
 }
 
+input,
+select,
+option,
+button {
+    font-family: map-get($font-family-styles, base);
+    font-size: map-get($font-sizes, base, small);
+    line-height: $base-line-height;
+
+    @include m.medium-screen {
+        font-size: map-get($font-sizes, base, medium);
+        line-height: $base-line-height * 1.2;
+    }
+
+    @include m.large-screen {
+        font-size: map-get($font-sizes, base, large);
+    }
+
+    @include m.xlarge-screen {
+        font-size: map-get($font-sizes, base, xlarge);
+    }
+
+    @include m.xxlarge-screen {
+        font-size: map-get($font-sizes, base, xxlarge);
+    }
+
+    @include m.xxxlarge-screen {
+        font-size: map-get($font-sizes, base, xxxlarge);
+    }
+
+    @include m.xxxxlarge-screen {
+        font-size: map-get($font-sizes, base, xxxxlarge);
+    }
+
+    color: map-get(p.$light-theme-font-colors, primary);
+}
+
 a,
 footer,
-button {
-    font-weight: map-get($font-weights, bold);
-}
-
-label {
-    font-size: map-get($font-sizes-text, large);
-    font-weight: map-get($font-weights, bold);
-}
-
+button,
 input {
     font-weight: map-get($font-weights, bold);
-}
-
-button {
-    color: map-get(p.$light-theme-font-colors, primary);
 }
 
 #youtube {
