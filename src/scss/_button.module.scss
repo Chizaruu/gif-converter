@@ -8,6 +8,13 @@ button {
 
     &:hover {
         cursor: pointer;
+        @include m.light {
+            background-color: map-get(p.$light-theme-colors, quaternary);
+        }
+
+        @include m.dark {
+            background-color: map-get(p.$dark-theme-colors, quaternary);
+        }
     }
 
     @include m.light {

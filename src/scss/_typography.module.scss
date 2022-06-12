@@ -31,11 +31,11 @@ $font-sizes: (
     base: (
         small: 1em,
         medium: 1.1em,
-        large: 1.2em,
-        xlarge: 1.3em,
-        xxlarge: 1.4em,
-        xxxlarge: 1.5em,
-        xxxxlarge: 1.8em,
+        large: 1.3em,
+        xlarge: 1.5em,
+        xxlarge: 1.7em,
+        xxxlarge: 2.2em,
+        xxxxlarge: 2.8em,
     ),
 );
 
@@ -71,7 +71,6 @@ $letter-spacings: (
 
 %font-headings {
     font-family: map-get($font-family-styles, heading);
-    line-height: $header-line-height;
     letter-spacing: map-get($letter-spacings, normal);
     font-weight: map-get($font-weights, bold);
     white-space: nowrap;
@@ -79,7 +78,6 @@ $letter-spacings: (
 
     @include m.medium-screen {
         font-size: map-get($font-sizes, heading, medium);
-        line-height: $header-line-height * 1.2;
     }
 
     @include m.large-screen {
@@ -117,9 +115,9 @@ h6 {
 //text
 p,
 a,
-li,
-span,
-label,
+button,
+select,
+input,
 footer {
     font-family: map-get($font-family-styles, base);
     font-size: map-get($font-sizes, base, small);
@@ -153,15 +151,18 @@ footer {
     @extend %data-theme;
 }
 
+input,
+select,
+option,
+button {
+    color: map-get(p.$light-theme-font-colors, primary);
+}
+
 a,
 footer,
 button,
 input {
     font-weight: map-get($font-weights, bold);
-}
-
-button {
-    color: map-get(p.$light-theme-font-colors, primary);
 }
 
 #youtube {

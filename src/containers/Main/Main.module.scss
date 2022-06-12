@@ -25,14 +25,43 @@ main {
     &__Input {
         @extend %mainSetUp;
 
-        li {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            input {
-                width: 65px;
+        h4 {
+            margin: 10px;
+        }
+
+        input,
+        select {
+            width: 65px;
+            height: 30px;
+
+            @include m.medium-screen {
+                width: 80px;
+                height: 40px;
+            }
+
+            @include m.large-screen {
+                width: 120px;
+                height: 40px;
+            }
+
+            @include m.xlarge-screen {
+                width: 170px;
+                height: 40px;
+            }
+
+            @include m.xxlarge-screen {
+                width: 180px;
+                height: 40px;
+            }
+
+            @include m.xxxlarge-screen {
+                width: 200px;
+                height: 50px;
+            }
+
+            @include m.xxxxlarge-screen {
+                width: 240px;
+                height: 60px;
             }
         }
     }
@@ -41,8 +70,39 @@ main {
         @extend %mainSetUp;
 
         video {
-            width: 400px;
-            height: 400px;
+            @include m.medium-screen {
+                width: 200px;
+                height: 200px;
+            }
+
+            @include m.large-screen {
+                width: 300px;
+                height: 300px;
+            }
+
+            @include m.xlarge-screen {
+                width: 400px;
+                height: 400px;
+            }
+
+            @include m.xxlarge-screen {
+                width: 500px;
+                height: 500px;
+            }
+
+            @include m.xxxlarge-screen {
+                width: 600px;
+                height: 600px;
+            }
+
+            @include m.xxxxlarge-screen {
+                width: 700px;
+                height: 700px;
+            }
+        }
+
+        button {
+            margin-top: 10px;
         }
     }
 }
