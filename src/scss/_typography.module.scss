@@ -115,9 +115,6 @@ h6 {
 //text
 p,
 a,
-button,
-select,
-input,
 footer {
     font-family: map-get($font-family-styles, base);
     font-size: map-get($font-sizes, base, small);
@@ -155,6 +152,35 @@ input,
 select,
 option,
 button {
+    font-family: map-get($font-family-styles, base);
+    font-size: map-get($font-sizes, base, small);
+    line-height: $base-line-height;
+
+    @include m.medium-screen {
+        font-size: map-get($font-sizes, base, medium);
+        line-height: $base-line-height * 1.2;
+    }
+
+    @include m.large-screen {
+        font-size: map-get($font-sizes, base, large);
+    }
+
+    @include m.xlarge-screen {
+        font-size: map-get($font-sizes, base, xlarge);
+    }
+
+    @include m.xxlarge-screen {
+        font-size: map-get($font-sizes, base, xxlarge);
+    }
+
+    @include m.xxxlarge-screen {
+        font-size: map-get($font-sizes, base, xxxlarge);
+    }
+
+    @include m.xxxxlarge-screen {
+        font-size: map-get($font-sizes, base, xxxxlarge);
+    }
+
     color: map-get(p.$light-theme-font-colors, primary);
 }
 
